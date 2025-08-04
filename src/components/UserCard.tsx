@@ -1,6 +1,8 @@
-const UserCard = ({ user }) => {
+const UserCard = ({ user, onClick }) => {
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer transform hover:-translate-y-1 hover:scale-105 transition-transform duration-300">
+    <div
+      onClick={() => onClick(user)}
+      className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer transform hover:-translate-y-1 hover:scale-105 transition-transform duration-300">
       <div className="relative h-48 bg-gradient-to-r from-amber-200 to-amber-300 flex justify-center items-center">
         <img
           src={user.picture.large}

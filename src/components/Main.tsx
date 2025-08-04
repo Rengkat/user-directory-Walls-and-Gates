@@ -3,8 +3,9 @@ interface Props {
   users: any;
   loading: boolean;
   error: any;
+  onUserClick: any;
 }
-const Main = ({ users, loading, error }: Props) => {
+const Main = ({ users, loading, error, onUserClick }: Props) => {
   console.log(users);
   return (
     <main className="flex-grow container mx-auto px-4 py-8">
@@ -39,7 +40,7 @@ const Main = ({ users, loading, error }: Props) => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {users.map((user: any) => (
-            <UserCard key={user.login.uuid} user={user} />
+            <UserCard key={user.login.uuid} user={user} onClick={onUserClick} />
           ))}
         </div>
       )}
