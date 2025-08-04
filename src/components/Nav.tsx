@@ -1,4 +1,4 @@
-const Nav = () => {
+const Nav = ({ searchTerm, setSearchTerm }) => {
   return (
     <nav className="sticky top-0 z-50 bg-gradient-to-r from-amber-800 to-amber-900 text-white shadow-lg">
       <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
@@ -25,6 +25,8 @@ const Nav = () => {
             <input
               type="text"
               placeholder="Search users..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2 rounded-full bg-amber-800/80 text-white placeholder-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:bg-amber-950 transition-all duration-300 shadow-lg"
             />
             <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-200">

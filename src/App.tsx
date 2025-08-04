@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Footer from "./components/Footer";
 import Main from "./components/Main";
@@ -10,13 +10,23 @@ function App() {
   const [users, setUsers] = useState(mockUsers);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
+  useEffect(() => {
+    const filtered = users.filter((user) => {
+      const fullName = `${user.name.first} ${user.name.last}`.toLowerCase();
+      return fullName.includes(searchTerm.toLowerCase());
+    });
+    setFilteredUsers(filtered);
+  }, [searchTerm, users]);
+
   return (
     <div className="min-h-screen flex flex-col bg-amber-50">
       {/*  Navigation */}
-      <Nav />
+      <Nav searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       {/* Main */}
-      <Main users={users} loading={loading} error={error} onUserClick={setSelectedUser} />
+      <Main users={filteredUsers} loading={loading} error={error} onUserClick={setSelectedUser} />
       {/* Footer */}
       <Footer />
       {/* User Modal */}
