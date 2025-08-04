@@ -1,5 +1,3 @@
-import React from "react";
-
 const Nav = () => {
   return (
     <nav className="sticky top-0 z-50 bg-gradient-to-r from-amber-800 to-amber-900 text-white shadow-lg">
