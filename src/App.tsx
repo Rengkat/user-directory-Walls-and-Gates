@@ -57,12 +57,14 @@ function App() {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   useEffect(() => {
     const fetchUsers = async () => {
+      setLoading(true);
       try {
         const response = await fetch(`https://randomuser.me/api/?results=50`);
         if (!response.ok) throw new Error("Failed to fetch users");
         const data = await response.json();
         setUsers(data.results);
         setFilteredUsers(data.results);
+        setLoading(false);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);
