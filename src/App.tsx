@@ -3,7 +3,6 @@ import "./App.css";
 import Footer from "./components/Footer";
 import Main from "./components/Main";
 import Nav from "./components/Nav";
-import { mockUsers } from "./util";
 import UserModal from "./components/UserModal";
 interface Location {
   street: {
@@ -28,7 +27,6 @@ interface Picture {
 interface Dob {
   age: number;
 }
-
 interface User {
   name: Name;
   email: string;
@@ -37,9 +35,12 @@ interface User {
   gender: string;
   phone: string;
   dob: Dob;
+  login: {
+    uuid: string;
+  };
 }
 function App() {
-  const [users, setUsers] = useState<User[]>(mockUsers);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
@@ -54,6 +55,27 @@ function App() {
 
   // Change page
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(`https://randomuser.me/api/?results=50`);
+        if (!response.ok) throw new Error("Failed to fetch users");
+        const data = await response.json();
+        setUsers(data.results);
+        setFilteredUsers(data.results);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occurred");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
   useEffect(() => {
     const filtered = users.filter((user) => {
       const fullName = `${user.name.first} ${user.name.last}`.toLowerCase();

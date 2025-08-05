@@ -30,6 +30,7 @@ interface User {
   gender: string;
   phone: string;
   dob: Dob;
+  login: { uuid: string };
 }
 
 interface UserCardProps {

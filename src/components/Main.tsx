@@ -1,4 +1,3 @@
-import React from "react";
 import UserCard from "./UserCard";
 interface Location {
   street: {
@@ -23,6 +22,9 @@ interface Picture {
 interface Dob {
   age: number;
 }
+interface Login {
+  uuid: string;
+}
 
 interface User {
   name: Name;
@@ -32,6 +34,7 @@ interface User {
   gender: string;
   phone: string;
   dob: Dob;
+  login: Login;
 }
 
 interface Props {
