@@ -39,12 +39,21 @@ interface User {
   dob: Dob;
 }
 function App() {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>(mockUsers);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [usersPerPage] = useState<number>(8);
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
+  // Change page
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   useEffect(() => {
     const filtered = users.filter((user) => {
       const fullName = `${user.name.first} ${user.name.last}`.toLowerCase();
@@ -58,7 +67,15 @@ function App() {
       {/*  Navigation */}
       <Nav searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       {/* Main */}
-      <Main users={filteredUsers} loading={loading} error={error} onUserClick={setSelectedUser} />
+      <Main
+        users={currentUsers}
+        loading={loading}
+        error={error}
+        onUserClick={setSelectedUser}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        paginate={paginate}
+      />{" "}
       {/* Footer */}
       <Footer />
       {/* User Modal */}

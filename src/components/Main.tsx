@@ -1,12 +1,50 @@
+import React from "react";
 import UserCard from "./UserCard";
-interface Props {
-  users: any;
-  loading: boolean;
-  error: any;
-  onUserClick: any;
+interface Location {
+  street: {
+    number: number;
+    name: string;
+  };
+  city: string;
+  state: string;
+  country: string;
+  postcode: string | number;
 }
-const Main = ({ users, loading, error, onUserClick }: Props) => {
-  console.log(users);
+
+interface Name {
+  first: string;
+  last: string;
+}
+
+interface Picture {
+  large: string;
+}
+
+interface Dob {
+  age: number;
+}
+
+interface User {
+  name: Name;
+  email: string;
+  location: Location;
+  picture: Picture;
+  gender: string;
+  phone: string;
+  dob: Dob;
+}
+
+interface Props {
+  users: User[];
+  loading: boolean;
+  error: string | null;
+  onUserClick: (user: User) => void;
+  currentPage: number;
+  totalPages: number;
+  paginate: (pageNumber: number) => void;
+}
+
+const Main = ({ users, loading, error, onUserClick, currentPage, totalPages, paginate }: Props) => {
   return (
     <main className="flex-grow container mx-auto px-4 py-8">
       {error && (
@@ -38,11 +76,55 @@ const Main = ({ users, loading, error, onUserClick }: Props) => {
           <p className="text-amber-600">Try adjusting your search</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {users.map((user: any) => (
-            <UserCard key={user.login.uuid} user={user} onClick={onUserClick} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {users.map((user) => (
+              <UserCard key={user.login.uuid} user={user} onClick={onUserClick} />
+            ))}
+          </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex justify-center mt-8">
+              <nav className="inline-flex rounded-md shadow">
+                <button
+                  onClick={() => paginate(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1}
+                  className={`px-4 py-2 rounded-l-md border border-amber-300 ${
+                    currentPage === 1
+                      ? "bg-amber-100 text-amber-400 cursor-not-allowed"
+                      : "bg-white text-amber-700 hover:bg-amber-50"
+                  }`}>
+                  Previous
+                </button>
+
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+                  <button
+                    key={number}
+                    onClick={() => paginate(number)}
+                    className={`px-4 py-2 border-t border-b border-amber-300 ${
+                      currentPage === number
+                        ? "bg-amber-500 text-white"
+                        : "bg-white text-amber-700 hover:bg-amber-50"
+                    }`}>
+                    {number}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
+                  disabled={currentPage === totalPages}
+                  className={`px-4 py-2 rounded-r-md border border-amber-300 ${
+                    currentPage === totalPages
+                      ? "bg-amber-100 text-amber-400 cursor-not-allowed"
+                      : "bg-white text-amber-700 hover:bg-amber-50"
+                  }`}>
+                  Next
+                </button>
+              </nav>
+            </div>
+          )}
+        </>
       )}
     </main>
   );
