@@ -1,4 +1,42 @@
-const UserCard = ({ user, onClick }) => {
+interface Location {
+  street: {
+    number: number;
+    name: string;
+  };
+  city: string;
+  state: string;
+  country: string;
+  postcode: string | number;
+}
+
+interface Name {
+  first: string;
+  last: string;
+}
+
+interface Picture {
+  large: string;
+}
+
+interface Dob {
+  age: number;
+}
+
+interface User {
+  name: Name;
+  email: string;
+  location: Location;
+  picture: Picture;
+  gender: string;
+  phone: string;
+  dob: Dob;
+}
+
+interface UserCardProps {
+  user: User;
+  onClick: (user: User) => void;
+}
+const UserCard = ({ user, onClick }: UserCardProps) => {
   return (
     <div
       onClick={() => onClick(user)}

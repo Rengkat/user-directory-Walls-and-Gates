@@ -1,4 +1,9 @@
-const Nav = ({ searchTerm, setSearchTerm }) => {
+interface NavProps {
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+}
+
+const Nav = ({ searchTerm, setSearchTerm }: NavProps) => {
   return (
     <nav className="sticky top-0 z-50 bg-gradient-to-r from-amber-800 to-amber-900 text-white shadow-lg">
       <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row md:justify-between md:items-center gap-4">

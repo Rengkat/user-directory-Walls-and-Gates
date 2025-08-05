@@ -5,14 +5,46 @@ import Main from "./components/Main";
 import Nav from "./components/Nav";
 import { mockUsers } from "./util";
 import UserModal from "./components/UserModal";
+interface Location {
+  street: {
+    number: number;
+    name: string;
+  };
+  city: string;
+  state: string;
+  country: string;
+  postcode: string | number;
+}
 
+interface Name {
+  first: string;
+  last: string;
+}
+
+interface Picture {
+  large: string;
+}
+
+interface Dob {
+  age: number;
+}
+
+interface User {
+  name: Name;
+  email: string;
+  location: Location;
+  picture: Picture;
+  gender: string;
+  phone: string;
+  dob: Dob;
+}
 function App() {
-  const [users, setUsers] = useState(mockUsers);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [filteredUsers, setFilteredUsers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   useEffect(() => {
     const filtered = users.filter((user) => {
       const fullName = `${user.name.first} ${user.name.last}`.toLowerCase();

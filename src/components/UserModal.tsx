@@ -1,4 +1,42 @@
-const UserModal = ({ user, onClose }) => {
+interface Location {
+  street: {
+    number: number;
+    name: string;
+  };
+  city: string;
+  state: string;
+  country: string;
+  postcode: string | number;
+}
+
+interface Name {
+  first: string;
+  last: string;
+}
+
+interface Picture {
+  large: string;
+}
+
+interface Dob {
+  age: number;
+}
+
+interface User {
+  name: Name;
+  email: string;
+  location: Location;
+  picture: Picture;
+  gender: string;
+  phone: string;
+  dob: Dob;
+}
+
+interface UserModalProps {
+  user: User;
+  onClose: () => void;
+}
+const UserModal = ({ user, onClose }: UserModalProps) => {
   console.log(user);
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
